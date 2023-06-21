@@ -3,6 +3,7 @@ import re
 import pandas as pd
 from multiprocessing import Pool
 from bs4 import BeautifulSoup
+
 headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36'
 }
@@ -28,7 +29,8 @@ def query(province, city, year, urls):
         # print(temp)
         data = []
         for i in range(len(time)):
-            l1 = [province, city, time[i][:10], time[i][10:], temp[i * 4 + 0], temp[i * 4 + 1], temp[i * 4 + 2], temp[i*4+3]]
+            l1 = [province, city, time[i][:10], time[i][10:], temp[i * 4 + 0], temp[i * 4 + 1], temp[i * 4 + 2],
+                  temp[i * 4 + 3]]
             data.append(l1)
         df1 = pd.DataFrame(
             data, columns=['省', '市', '日期', '星期', '最高温度', '最低温度', '天气', '风向风力'], index=None)
@@ -64,6 +66,7 @@ for i in range(2011, 2023):
 def run(args):
     province, city, year = args
     query(province, city, year, url_dict[(province, city, year)])
+
 
 for key in url_dict.keys():
     run(key)
